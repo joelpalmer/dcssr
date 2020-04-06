@@ -17,7 +17,26 @@
 // Worst-case analysis: our running time
 // Focused on large n - asymptotic
 const assert = require('assert')
-const arr = [1, 2, 3, 4, 5, 6, 7, 9, 11, 12]
-const mergeSort = arr =>
-	arr
-assert.deepStrictEqual(mergeSort(arr), [1, 2, 3, 4, 5, 6, 7, 9, 11, 12], 'Sorts array')
+const arr = [9, 2, 3, 5, 4, 7, 6, 1, 12, 11]
+
+const mergeSort = arr => {
+  if (arr.length <= 1) return arr
+  const mid = Math.floor(arr.length / 2)
+  const left = mergeSort(arr.slice(0, mid))
+  const right = mergeSort(arr.slice(mid))
+  return merge(left, right)
+}
+
+const merge = (larr, rarr) => {
+  const sorted = []
+
+  while (larr.length && rarr.length) {
+    if (larr[0] < rarr[0]) sorted.push(larr.shift())
+    else sorted.push(rarr.shift())
+  }
+
+  return [...sorted, ...larr, ...rarr]
+}
+
+// TDD
+assert.deepStrictEqual(mergeSort([9, 2, 3, 5, 4, 7, 6, 1, 12, 11]), [1, 2, 3, 4, 5, 6, 7, 9, 11, 12], 'Sorts array')
